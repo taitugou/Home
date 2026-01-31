@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>TTG 导航 | 在线聊天室 & 免费匿名交友 - 网页版实时互动平台</title>
+    <meta name="description" content="TTG 导航 - 您的首选在线聊天与匿名社交平台。提供免费、无需下载的网页版在线聊天服务。随时随地在线找人聊天，体验在线随机匹配、多人在线聊天室、在线扩列与即时通讯。内置在线德州扑克、五子棋等游戏，实现边玩边聊的在线游戏社交体验。加入 TTG Chat，开启您的在线私密社交之旅。">
+    <meta name="keywords" content="在线聊天, 在线聊天室, 网页在线聊天, 免费在线聊天, 在线交友, 在线匹配, 在线找人, 在线即时通讯, 免下载聊天, 浏览器聊天, Web聊天室, H5聊天, 在线陌生人聊天, 在线扩列, 在线陪聊, 游戏在线聊天, 边玩边聊, 实时在线互动, 同城在线聊天, 在线树洞, 聊天, 匿名聊天, 匿名交友, TTG, TTG Chat, 德州扑克, 五子棋">
+    <meta name="author" content="TTG Team">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://taitugou.icu/">
+    <meta property="og:title" content="TTG 导航 | 免费匿名聊天室 & 在线交友平台">
+    <meta property="og:description" content="加入 TTG 匿名聊天室，体验免费的实时陌生人匹配与多人在线聊天。内置德州扑克与五子棋，让交友更有趣。无需下载，点击即聊。">
+    <meta property="og:image" content="http://taitugou.icu/f.ico">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="http://taitugou.icu/">
+    <meta property="twitter:title" content="TTG 导航 | 免费匿名聊天室 & 在线交友平台">
+    <meta property="twitter:description" content="加入 TTG 匿名聊天室，体验免费的实时陌生人匹配与多人在线聊天。内置德州扑克与五子棋，让交友更有趣。无需下载，点击即聊。">
+    <meta property="twitter:image" content="http://taitugou.icu/f.ico">
+
+    <link rel="icon" href="f.ico" type="image/x-icon">
+    <link rel="canonical" href="http://taitugou.icu/">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="bg-visuals">
+        <div class="bg-blob"></div>
+        <div class="bg-blob"></div>
+        <div class="bg-blob"></div>
+    </div>
+    <canvas id="bg-canvas"></canvas>
+    
+    <div class="glass-container">
+        <header class="header">
+            <div class="logo-container">
+                <img src="f.ico" alt="TTG Logo" class="logo glow-effect">
+            </div>
+            <h1 class="title">TTG Universe</h1>
+            <p class="subtitle">探索 · 社交 · 娱乐</p>
+        </header>
+
+        <main class="cards-grid">
+            <!-- TTG Chat Card -->
+            <div class="card ttg-chat-card" onclick="openModal('chat-modal')">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <div class="card-info">
+                        <h2>TTG Chat</h2>
+                        <p>全方位社交交互与在线娱乐平台</p>
+                        <span class="status-badge"><span class="dot"></span> Online</span>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="card-shine"></div>
+            </div>
+
+            <!-- More Works Card -->
+            <a href="http://taitugou.icu:81" target="_blank" class="card more-works-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div class="card-info">
+                        <h2>更多 TTG 作品</h2>
+                        <p>探索更多精彩应用与服务</p>
+                    </div>
+                    <div class="card-arrow">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </div>
+                </div>
+                <div class="card-shine"></div>
+            </a>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2026 TTG Team. Designed with <i class="fa-solid fa-heart" style="color: #ff3b30;"></i></p>
+        </footer>
+    </div>
+
+    <!-- Modal for TTG Chat Details -->
+    <div id="chat-modal" class="modal">
+        <div class="modal-content glass-morphism">
+            <span class="close-btn" onclick="closeModal('chat-modal')">&times;</span>
+            <div class="modal-header">
+                <img src="f.ico" alt="Logo" class="modal-logo">
+                <div>
+                    <h2>TTG Chat</h2>
+                    <a href="http://taitugou.icu:8888/" target="_blank" class="btn-primary">立即访问 <i class="fa-solid fa-rocket"></i></a>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <p class="intro-text">TTG Chat 是一个结合即时通讯、社区动态、智能匹配及在线游戏的全方位社交平台。</p>
+                
+                <div class="feature-section">
+                    <h3><i class="fa-solid fa-star"></i> 核心功能</h3>
+                    <div class="tags-container">
+                        <div class="tag-group">
+                            <h4>社交互动</h4>
+                            <span class="tag">动态系统</span>
+                            <span class="tag">智能推荐</span>
+                            <span class="tag">好友系统</span>
+                            <span class="tag">即时通讯</span>
+                            <span class="tag">阅后即焚</span>
+                        </div>
+                        <div class="tag-group">
+                            <h4>智能匹配</h4>
+                            <span class="tag">复杂算法</span>
+                            <span class="tag">Jaccard 相似度</span>
+                            <span class="tag">地理位置</span>
+                        </div>
+                        <div class="tag-group">
+                            <h4>游戏娱乐</h4>
+                            <span class="tag">德州扑克</span>
+                            <span class="tag">炸金花</span>
+                            <span class="tag">五子棋</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-section">
+                    <h3><i class="fa-solid fa-code"></i> 技术架构</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <i class="fa-brands fa-vuejs"></i>
+                            <span>Vue 3 + TS</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-brands fa-node"></i>
+                            <span>Node.js</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-solid fa-database"></i>
+                            <span>MySQL 8.0</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-solid fa-bolt"></i>
+                            <span>Socket.IO</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-solid fa-server"></i>
+                            <span>Nginx</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-solid fa-memory"></i>
+                            <span>Redis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
