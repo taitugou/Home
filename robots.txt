@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: http://taitugou.icu/sitemap.xml
+Sitemap: https://taitugou.icu/sitemap.xml
