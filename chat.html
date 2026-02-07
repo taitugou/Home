@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TTG Chat 在线聊天室 | 免费匿名聊天、随机匹配与多人群聊</title>
+    <meta name="description" content="TTG Chat 在线聊天室：支持网页版在线聊天、免费匿名聊天、陌生人随机匹配、实时互动与多人群聊。无需下载，打开浏览器即可聊天。">
+    <meta name="keywords" content="TTG Chat, TTG, taitugou, 胎土狗, 在线聊天, 在线聊天室, 网页在线聊天, 免费在线聊天, 匿名聊天, 匿名交友, 陌生人聊天, 随机匹配, 群聊, 实时互动, 即时通讯">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://home.taitugou.top/chat.html">
+    <meta property="og:title" content="TTG Chat 在线聊天室 | 免费匿名聊天与随机匹配">
+    <meta property="og:description" content="TTG Chat：网页版在线聊天室、匿名聊天、陌生人随机匹配、群聊与实时互动。">
+    <meta property="og:image" content="https://home.taitugou.top/f.ico">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://home.taitugou.top/chat.html">
+    <meta property="twitter:title" content="TTG Chat 在线聊天室 | 免费匿名聊天与随机匹配">
+    <meta property="twitter:description" content="TTG Chat：网页版在线聊天室、匿名聊天、陌生人随机匹配、群聊与实时互动。">
+    <meta property="twitter:image" content="https://home.taitugou.top/f.ico">
+
+    <link rel="icon" href="f.ico" type="image/x-icon">
+    <link rel="canonical" href="https://home.taitugou.top/chat.html">
+    <link rel="stylesheet" href="style.css">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "Organization",
+                    "@id": "https://home.taitugou.top/#org",
+                    "name": "TTG",
+                    "alternateName": ["TTG Team", "TTG Chat", "胎土狗", "taitugou"],
+                    "url": "https://home.taitugou.top/",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://home.taitugou.top/f.ico"
+                    }
+                },
+                {
+                    "@type": "WebSite",
+                    "@id": "https://home.taitugou.top/#website",
+                    "name": "TTG 导航",
+                    "url": "https://home.taitugou.top/",
+                    "publisher": { "@id": "https://home.taitugou.top/#org" },
+                    "inLanguage": "zh-CN"
+                },
+                {
+                    "@type": "WebPage",
+                    "@id": "https://home.taitugou.top/chat.html#webpage",
+                    "url": "https://home.taitugou.top/chat.html",
+                    "name": "TTG Chat 在线聊天室",
+                    "isPartOf": { "@id": "https://home.taitugou.top/#website" },
+                    "about": { "@id": "https://home.taitugou.top/#org" },
+                    "inLanguage": "zh-CN"
+                }
+            ]
+        }
+    </script>
+</head>
+<body>
+    <div class="bg-visuals">
+        <div class="bg-blob"></div>
+        <div class="bg-blob"></div>
+        <div class="bg-blob"></div>
+    </div>
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="glass-container">
+        <header class="header">
+            <div class="logo-container">
+                <img src="f.ico" alt="TTG Chat 在线聊天室 Logo" class="logo glow-effect">
+            </div>
+            <h1 class="title">TTG Chat</h1>
+            <p class="subtitle">在线聊天室 · 匿名聊天 · 随机匹配</p>
+        </header>
+
+        <nav class="nav-links" aria-label="页面导航">
+            <a class="nav-link" href="index.html">返回首页</a>
+            <a class="nav-link" href="about.html">关于 TTG / 胎土狗</a>
+        </nav>
+
+        <main class="page-main" aria-label="TTG Chat 介绍">
+            <div class="card static-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <span class="icon" aria-hidden="true">🌐</span>
+                    </div>
+                    <div class="card-info">
+                        <h2>网页版在线聊天</h2>
+                        <p>TTG Chat 提供免下载、免安装的网页在线聊天体验。打开浏览器即可开始聊天，适合快速找人聊天、同城扩列、在线树洞与即时沟通。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card static-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <span class="icon" aria-hidden="true">🕵️</span>
+                    </div>
+                    <div class="card-info">
+                        <h2>匿名聊天与随机匹配</h2>
+                        <p>面向匿名交友与陌生人聊天场景，TTG Chat 支持随机匹配与多人在线聊天室入口，强调实时互动与轻量社交。</p>
+                    </div>
+                </div>
+            </div>
+
+            <a href="http://taitugou.top:8888/" target="_blank" class="card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <span class="icon" aria-hidden="true">🚀</span>
+                    </div>
+                    <div class="card-info">
+                        <h2>立即进入 TTG Chat</h2>
+                        <p>打开在线聊天室入口（新窗口）。</p>
+                    </div>
+                    <div class="card-arrow">
+                        <span class="icon" aria-hidden="true">↗</span>
+                    </div>
+                </div>
+                <div class="card-shine"></div>
+            </a>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2026 TTG Team.</p>
+        </footer>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
