@@ -186,6 +186,25 @@ body {
     font-weight: 700;
     margin-bottom: 0.8rem;
     color: white;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.seo-section h2:hover {
+    color: var(--ios-blue);
+}
+
+.info-icon {
+    font-size: 1rem;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.seo-section h2:hover .info-icon {
+    opacity: 1;
 }
 
 .seo-section p {
