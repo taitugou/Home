@@ -1,239 +1,244 @@
-// Modal Logic
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    modal.classList.add('show');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-}
+/**
+ * TTG - 高级简约 / 浮夸动画系统
+ */
 
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    modal.classList.remove('show');
-    document.body.style.overflow = '';
-}
+(function() {
+    'use strict';
 
-// Close modal when clicking outside
-window.onclick = function(event) {
-    const modal = document.getElementById('chat-modal');
-    if (event.target === modal) {
-        closeModal('chat-modal');
-    }
-}
-
-// 3D Tilt Effect for Cards
-const cards = document.querySelectorAll('.card');
-
-cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = ((y - centerY) / centerY) * -10; // Max 10 deg
-        const rotateY = ((x - centerX) / centerX) * 10;
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-        
-        // Shine effect
-        const shine = card.querySelector('.card-shine');
-        if (shine) {
-            // Move shine based on mouse position
-             // Simplified shine for now, CSS animation handles the sweep on hover
-             // but we can add dynamic light
-        }
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-    });
-});
-
-// Canvas Background Animation
-const canvas = document.getElementById('bg-canvas');
-const ctx = canvas ? canvas.getContext('2d') : null;
-
-let width, height;
-let particles = [];
-let particleCount = 80;
-let connectionDistance = 150;
-let mouseDistance = 200;
-let connectionDistance2 = connectionDistance * connectionDistance;
-let mouseDistance2 = mouseDistance * mouseDistance;
-
-let mouse = { x: null, y: null };
-let animationFrameId = null;
-let running = false;
-let lastFrameTime = 0;
-const frameIntervalMs = 1000 / 30;
-const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const lowEndDevice = typeof navigator !== 'undefined' && 'deviceMemory' in navigator && navigator.deviceMemory && navigator.deviceMemory <= 4;
-
-if (ctx) {
-    window.addEventListener('resize', resizeCanvas);
-    window.addEventListener('pointermove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            stopAnimation();
-        } else if (!prefersReducedMotion) {
-            startAnimation();
-        }
-    });
-}
-
-function updatePerformanceProfile() {
-    if (width < 600) {
-        particleCount = 50;
-        connectionDistance = 120;
-        mouseDistance = 160;
-    } else if (width < 1100) {
-        particleCount = 65;
-        connectionDistance = 140;
-        mouseDistance = 180;
-    } else {
-        particleCount = 80;
-        connectionDistance = 150;
-        mouseDistance = 200;
-    }
-
-    if (lowEndDevice) {
-        particleCount = Math.max(35, Math.round(particleCount * 0.7));
-        connectionDistance = Math.round(connectionDistance * 0.9);
-        mouseDistance = Math.round(mouseDistance * 0.9);
-    }
-
-    connectionDistance2 = connectionDistance * connectionDistance;
-    mouseDistance2 = mouseDistance * mouseDistance;
-}
-
-function resizeCanvas() {
-    if (!ctx) return;
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-    updatePerformanceProfile();
-    initParticles();
-}
-
-class Particle {
-    constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 1.5;
-        this.vy = (Math.random() - 0.5) * 1.5;
-        this.size = Math.random() * 3 + 1;
-        this.color = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.3})`; // White particles
-    }
-
-    update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        // Bounce off edges
-        if (this.x < 0 || this.x > width) this.vx *= -1;
-        if (this.y < 0 || this.y > height) this.vy *= -1;
-
-        // Mouse interaction (Repulsion)
-        if (mouse.x != null) {
-            let dx = mouse.x - this.x;
-            let dy = mouse.y - this.y;
-            let dist2 = dx * dx + dy * dy;
-            
-            if (dist2 > 0 && dist2 < mouseDistance2) {
-                const distance = Math.sqrt(dist2);
-                const forceDirectionX = dx / distance;
-                const forceDirectionY = dy / distance;
-                const force = (mouseDistance - distance) / mouseDistance;
-                const directionX = forceDirectionX * force * 2;
-                const directionY = forceDirectionY * force * 2;
-                
-                this.vx -= directionX; // Repulsion
-                this.vy -= directionY;
+    // ========================================
+    // 工具函数
+    // ========================================
+    const lerp = (start, end, factor) => start + (end - start) * factor;
+    const throttle = (fn, limit) => {
+        let inThrottle;
+        return function(...args) {
+            if (!inThrottle) {
+                fn.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
             }
+        };
+    };
+
+    // ========================================
+    // 噪点背景
+    // ========================================
+    class GrainEffect {
+        constructor() {
+            this.canvas = document.getElementById('grain');
+            if (!this.canvas) return;
+
+            this.ctx = this.canvas.getContext('2d');
+            this.resize();
+            this.animate();
+
+            window.addEventListener('resize', throttle(() => this.resize(), 200));
         }
-        
-        // Friction
-        this.vx *= 0.95;
-        this.vy *= 0.95;
-        
-        // Minimum speed check
-        if (Math.abs(this.vx) < 0.2) this.vx = (Math.random() - 0.5) * 0.8;
-        if (Math.abs(this.vy) < 0.2) this.vy = (Math.random() - 0.5) * 0.8;
-    }
 
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    }
-}
+        resize() {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        }
 
-function initParticles() {
-    particles = [];
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-}
+        animate() {
+            const imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
+            const data = imageData.data;
 
-function animate() {
-    if (!running) return;
-    animationFrameId = requestAnimationFrame(animate);
-    const now = performance.now();
-    if (now - lastFrameTime < frameIntervalMs) return;
-    lastFrameTime = now;
-
-    ctx.clearRect(0, 0, width, height);
-    
-    for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-        
-        // Draw connections
-        for (let j = i + 1; j < particles.length; j++) {
-            let dx = particles[i].x - particles[j].x;
-            let dy = particles[i].y - particles[j].y;
-            let dist2 = dx * dx + dy * dy;
-            
-            if (dist2 < connectionDistance2) {
-                let distance = Math.sqrt(dist2);
-                ctx.beginPath();
-                let opacity = 1 - (distance / connectionDistance);
-                ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.15})`;
-                ctx.lineWidth = 0.5;
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.stroke();
+            for (let i = 0; i < data.length; i += 4) {
+                const value = Math.random() * 255;
+                data[i] = value;
+                data[i + 1] = value;
+                data[i + 2] = value;
+                data[i + 3] = 255;
             }
+
+            this.ctx.putImageData(imageData, 0, 0);
+            requestAnimationFrame(() => this.animate());
         }
     }
-}
 
-function startAnimation() {
-    if (!ctx || running) return;
-    running = true;
-    lastFrameTime = 0;
-    animationFrameId = requestAnimationFrame(animate);
-}
+    // ========================================
+    // 自定义光标
+    // ========================================
+    class CustomCursor {
+        constructor() {
+            this.cursor = document.querySelector('.custom-cursor');
+            this.ring = document.querySelector('.cursor-ring');
+            this.dot = document.querySelector('.cursor-dot');
 
-function stopAnimation() {
-    running = false;
-    if (animationFrameId != null) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
+            if (!this.cursor || window.matchMedia('(pointer: coarse)').matches) {
+                if (this.cursor) this.cursor.style.display = 'none';
+                document.body.style.cursor = 'auto';
+                return;
+            }
+
+            this.mouse = { x: 0, y: 0 };
+            this.ringPos = { x: 0, y: 0 };
+            this.isActive = true;
+
+            this.init();
+        }
+
+        init() {
+            document.addEventListener('mousemove', (e) => {
+                this.mouse.x = e.clientX;
+                this.mouse.y = e.clientY;
+            });
+
+            // 悬停效果
+            const interactiveElements = document.querySelectorAll('a, button, .preview-card');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => this.cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => this.cursor.classList.remove('hover'));
+            });
+
+            this.animate();
+        }
+
+        animate() {
+            if (!this.isActive) return;
+
+            // 圆环平滑跟随
+            this.ringPos.x = lerp(this.ringPos.x, this.mouse.x, 0.15);
+            this.ringPos.y = lerp(this.ringPos.y, this.mouse.y, 0.15);
+
+            this.ring.style.left = this.ringPos.x + 'px';
+            this.ring.style.top = this.ringPos.y + 'px';
+
+            // 圆点直接跟随
+            this.dot.style.left = this.mouse.x + 'px';
+            this.dot.style.top = this.mouse.y + 'px';
+
+            requestAnimationFrame(() => this.animate());
+        }
     }
-}
 
-if (ctx) {
-    resizeCanvas();
-    if (prefersReducedMotion) {
-        canvas.style.display = 'none';
+    // ========================================
+    // 磁吸链接效果
+    // ========================================
+    class MagneticLinks {
+        constructor() {
+            this.links = document.querySelectorAll('[data-magnetic]');
+            this.init();
+        }
+
+        init() {
+            this.links.forEach(link => {
+                link.addEventListener('mousemove', (e) => this.handleMove(e, link));
+                link.addEventListener('mouseleave', () => this.handleLeave(link));
+
+                // 鼠标位置光效
+                link.addEventListener('mousemove', throttle((e) => {
+                    const rect = link.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    link.style.setProperty('--mouse-x', x + '%');
+                    link.style.setProperty('--mouse-y', y + '%');
+                }, 50));
+            });
+        }
+
+        handleMove(e, element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const deltaX = (e.clientX - centerX) * 0.2;
+            const deltaY = (e.clientY - centerY) * 0.2;
+
+            element.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        }
+
+        handleLeave(element) {
+            element.style.transform = 'translate(0, 0)';
+        }
+    }
+
+    // ========================================
+    // 字符动画
+    // ========================================
+    class CharacterAnimation {
+        constructor() {
+            this.chars = document.querySelectorAll('.char');
+            this.init();
+        }
+
+        init() {
+            this.chars.forEach((char, index) => {
+                // 随机微动
+                setInterval(() => {
+                    if (Math.random() > 0.95) {
+                        char.style.transform = `translateY(${Math.random() * 4 - 2}px)`;
+                        setTimeout(() => {
+                            char.style.transform = '';
+                        }, 200);
+                    }
+                }, 3000 + index * 500);
+            });
+        }
+    }
+
+    // ========================================
+    // 预览卡片交互
+    // ========================================
+    class PreviewCards {
+        constructor() {
+            this.cards = document.querySelectorAll('.preview-card');
+            this.init();
+        }
+
+        init() {
+            this.cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const type = card.dataset.preview;
+                    if (type === 'chat') {
+                        window.location.href = 'chat.html';
+                    } else if (type === 'about') {
+                        window.location.href = 'about.html';
+                    }
+                });
+            });
+        }
+    }
+
+    // ========================================
+    // 视差效果
+    // ========================================
+    class ParallaxEffect {
+        constructor() {
+            this.glow = document.querySelector('.ambient-glow');
+            if (!this.glow) return;
+
+            this.init();
+        }
+
+        init() {
+            document.addEventListener('mousemove', throttle((e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 50;
+                const y = (e.clientY / window.innerHeight - 0.5) * 50;
+
+                this.glow.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+            }, 50));
+        }
+    }
+
+    // ========================================
+    // 初始化
+    // ========================================
+    function init() {
+        new GrainEffect();
+        new CustomCursor();
+        new MagneticLinks();
+        new CharacterAnimation();
+        new PreviewCards();
+        new ParallaxEffect();
+
+        console.log('TTG - Advanced Minimal Animation System Loaded');
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
     } else {
-        startAnimation();
+        init();
     }
-}
+})();
