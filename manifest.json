@@ -1,0 +1,35 @@
+{
+    "name": "TTG - 连接无限可能",
+    "short_name": "TTG",
+    "description": "TTG - 胎土狗 / taitugou 主页，TTG Chat 在线聊天室入口",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0a0a",
+    "theme_color": "#0a0a0a",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "zh-CN",
+    "icons": [
+        {
+            "src": "/f.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "/f.ico",
+            "sizes": "192x192",
+            "type": "image/x-icon",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/f.ico",
+            "sizes": "512x512",
+            "type": "image/x-icon",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["social", "communication"],
+    "screenshots": [],
+    "related_applications": [],
+    "prefer_related_applications": false
+}

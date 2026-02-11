@@ -223,6 +223,21 @@
     }
 
     // ========================================
+    // Service Worker 注册（支持 PWA 和离线访问）
+    // ========================================
+    function registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then((registration) => {
+                    console.log('TTG - Service Worker 注册成功:', registration.scope);
+                })
+                .catch((error) => {
+                    console.log('TTG - Service Worker 注册失败:', error);
+                });
+        }
+    }
+
+    // ========================================
     // 初始化
     // ========================================
     function init() {
@@ -232,6 +247,7 @@
         new CharacterAnimation();
         new PreviewCards();
         new ParallaxEffect();
+        registerServiceWorker();
 
         console.log('TTG - Advanced Minimal Animation System Loaded');
     }
